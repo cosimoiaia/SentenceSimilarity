@@ -26,7 +26,7 @@ def getSim(model, corpus, sentence):
 	sentence = sentence.rstrip('\n')
 	vector = model.infer_vector(sentence)
 
-	sims = model.docvecs.most_similar([vector], topn=FLAGS.maxres)
+	sims = model.docvecs.most_similar(positive=[vector], topn=FLAGS.maxres)
 
 	res = []
 	for idx, sim in sims:
@@ -78,7 +78,11 @@ def main():
 
 		sentence = raw_input('Insert sentence to compare> ')
 
-		print(getSim(m, corpus, sentence))
+		result = getSim(m, corpus, sentence)
+
+		for txt,sim in result:
+			print(txt[0])
+			print('Similarity: ', sim)
 
 	except EOFError:
 		print("Ok, bye")
